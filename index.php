@@ -1,8 +1,24 @@
+<?php $array = array_map('str_getcsv', file('data/info.csv'));
+$newarr      = [];
+$headers     = $array[0];
+unset($array[0]);
+foreach ($array as $item)
+{
+    foreach ($item as $key => $value)
+    {
+        $item[$headers[$key]] = $value;
+        unset($item[$key]);
+    }
+    $newarr[$item['Country']] = $item;
+}
+$json = json_encode($newarr);
+?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <title>Language info</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         .country:hover {
             stroke: #fff;
@@ -15,7 +31,7 @@
         }
 
         #container {
-            margin: 10px 5%;
+            margin: 10px 0;
             box-shadow: 0 0 4px rgba(0, 0, 0, 0.4) inset;
             height: 100%;
             overflow: hidden;
@@ -37,26 +53,27 @@
             position: absolute;
         }
 
+        h5 {
+            margin: 0;
+        }
+
     </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 <body>
+<div class="container">
+    <h1>Language info</h1>
 
-<h1>Language info</h1>
-
-<div id="container"></div>
-
+    <div id="container"></div>
+</div>
 <script src="//d3js.org/d3.v4.min.js"></script>
 <script src="//d3js.org/topojson.v1.min.js"></script>
 
 
 <script>
     d3.select(window).on("resize", throttle);
-    var countryInfo = [];
-    d3.csv("data/info.csv", function (err, info) {
-        info.forEach(function (element) {
-            countryInfo[element["country"]] = {"H": element["H"], "description": element["description"]};
-        });
-    });
+    var countryInfo = <?= $json;?>;
 
     var zoom = d3.zoom()
     //.extent([1,9])
@@ -103,6 +120,22 @@
         draw(topo);
     });
 
+    function hoverForInfo(info) {
+        if (info == undefined) return "";
+
+        var html = "<table class='table'>";
+        html += "<tr><th>" + info['Title'] + "</th><th></th></tr>";
+        html += "<tr><td>Bath words: </td><td>" + info['Bath words'] + "</td></tr>";
+        html += "<tr><td>Circle: </td><td>" + info['Circle'] + "</td></tr>";
+        html += "<tr><td>FORCE-NORTH contrast: </td><td>" + info['FORCE-NORTH contrast'] + "</td></tr>";
+        html += "<tr><td>STRUT/FOOT contrast: </td><td>" + info['STRUT/FOOT contrast'] + "</td></tr>";
+        html += "<tr><td>H-dropping: </td><td>" + info['H-dropping'] + "</td></tr>";
+        html += "<tr><td>Happy words: </td><td>" + info['Happy words'] + "</td></tr>";
+        html += "<tr><td>Medial /t/ glottalisation: </td><td>" + info['Medial /t/ glottalisation'] + "</td></tr>";
+        html += "<tr><td>Rhoticity: </td><td>" + info['Rhoticity'] + "</td></tr>";
+        html += "</table>";
+        return html;
+    }
     function handleMouseOver() {
         var mouse = d3.mouse(svg.node()).map(function (d) {
             return parseInt(d);
@@ -110,7 +143,7 @@
 
         tooltip.classed("hidden", false)
             .attr("style", "left:" + (mouse[0] + offsetL) + "px;top:" + (mouse[1] + offsetT) + "px")
-            .html(this.__data__.properties.desc);
+            .html(hoverForInfo(this.__data__.properties.info));
     }
 
     function handleMouseOut() {
@@ -120,7 +153,7 @@
 
     function draw(topo) {
         var country = g.selectAll(".country").data(topo);
-
+        console.log(countryInfo);
         country.enter().insert("path")
             .attr("class", "country")
             .attr("d", path)
@@ -128,12 +161,12 @@
                 return d.id;
             })
             .attr("title", function (d, i) {
-                d.properties.desc = (countryInfo[d.properties.code] == undefined) ? "" : countryInfo[d.properties.code]["description"];
+                d.properties.info = countryInfo[d.properties.code];
                 return d.properties.name;
             })
             .style("fill", function (d, i) {
                 var e = (countryInfo[d.properties.code] == undefined) ? null : countryInfo[d.properties.code]["H"];
-                switch (e){
+                switch (e) {
                     case null:
                         return "#DDD";
                     case "yes":

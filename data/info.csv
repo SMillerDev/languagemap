@@ -1,20 +1,20 @@
 Country,Region,Title,Circle,Bath words,STRUT/FOOT contrast,FORCE-NORTH contrast,Happy words,Rhoticity,H-dropping,Medial /t/ glottalisation
-GB,Greater London area,Cockney,Inner Circle,PALM,STRUT,No contrast,FLEECE,No,No,Replacement
-GB,North England,Northern England English,Inner Circle,TRAP,STRUT,No contrast,FLEECE,No,No,Reinforced
-GB,Liverpool,Scouse,Inner Circle,TRAP,Only FOOT,No contrast,FLEECE,No,Yes,Tapping
-GB,Newcastle,Geordie,Inner Circle,TRAP,Only FOOT,No contrast,KIT,No,No,Tapping
-GB,Wales,Wales English,Inner Circle,,,,,,,
-GB,Northern Ireland,Northern Irish English,Inner Circle,PALM,Variable,Split,KIT,Yes,No,None
-IR,Southern Ireland,Irish English,Inner Circle,PALM,Variable,Split,FLEECE,Yes,No,None
-GB,,Scottish English,Inner Circle,Variable PALM/TRAP,STRUT,Split,FACE,Yes,No,Replacement
+UK,Greater London area,Cockney,Inner Circle,PALM,STRUT,No contrast,FLEECE,No,No,Replacement
+UK,North England,Northern England English,Inner Circle,TRAP,STRUT,No contrast,FLEECE,No,No,Reinforced
+UK,Liverpool,Scouse,Inner Circle,TRAP,Only FOOT,No contrast,FLEECE,No,Yes,Tapping
+UK,Newcastle,Geordie,Inner Circle,TRAP,Only FOOT,No contrast,KIT,No,No,Tapping
+WAL,Wales,Wales English,Inner Circle,,,,,,,
+NIE,Northern Ireland,Northern Irish English,Inner Circle,PALM,Variable,Split,KIT,Yes,No,None
+IE,Southern Ireland,Irish English,Inner Circle,PALM,Variable,Split,FLEECE,Yes,No,None
+SCO,,Scottish English,Inner Circle,Variable PALM/TRAP,STRUT,Split,FACE,Yes,No,Replacement
 CA,,Canadian English,Inner Circle,TRAP,STRUT,No contrast,FLEECE,Yes,No,Tapping
 US,South,Southern American English,Inner Circle,TRAP,STRUT,No contrast,FLEECE,No,No,Tapping
 US,Midwest,General American,Inner Circle,TRAP,STRUT,No contrast,FLEECE,Yes,No,Tapping
 US,,African American Vernacular,Inner Circle,TRAP,STRUT,No contrast,FLEECE,No,No,Tapping
-US,East Coast,,Inner Circle,,,,,,,
-US,West Coast,,Inner Circle,,,,,,,
+US,East Coast,US East,Inner Circle,,,,,,,
+US,West Coast,US West,Inner Circle,,,,,,,
 AU,,Australian English,Inner Circle,Variable PALM/TRAP,STRUT,No contrast,FLEECE,No,No,Tapping
 NZ,,New Zealandn English,Inner Circle,Variable PALM/TRAP,STRUT,No contrast,FLEECE,No,No,Tapping
 JM,,Jamaican English,Outer Circle,Variable PALM/TRAP,Backed STRUT,No contrast,FLEECE,Yes (partially),Yes,Reinforced
-SA,,South African English,Outer Circle,PALM,STRUT,No contrast,KIT-FLEECE,No,No,Reinforced
+ZA,,South African English,Outer Circle,PALM,STRUT,No contrast,KIT-FLEECE,No,No,Reinforced
 IN,,Indian English,Outer Circle,PALM,STRUT,No contrast,FLEECE,No,No,None

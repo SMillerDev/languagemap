@@ -70,7 +70,7 @@ function hoverForInfo(info) {
     var html = "<table class='table'>";
     html += "<tr><th>" + info['Title'] + "</th><th></th></tr>";
     headers.forEach(function (value, i) {
-        var text = (value == key) ? "<b>" + value + "</b>" : value;
+        var text = (typeof key !== 'undefined' && value == key) ? "<b>" + value + "</b>" : value;
         html += "<tr><td>" + text + ": </td><td>" + info[value] + "</td></tr>";
     });
     html += "</table>";
@@ -93,7 +93,6 @@ function handleMouseOut() {
 
 function draw(topo) {
     var country = g.selectAll(".country").data(topo);
-    console.log(countryInfo);
     country.enter().insert("path")
         .attr("class", "country")
         .attr("d", path)
@@ -105,10 +104,10 @@ function draw(topo) {
             return d.properties.name;
         })
         .style("fill", function (d, i) {
-            if (key == undefined && countryInfo[d.properties.code] !== undefined) {
+            if (typeof key === 'undefined' && typeof countryInfo[d.properties.code] !== 'undefined') {
                 return "#777";
             }
-            var e = (countryInfo[d.properties.code] == undefined || countryInfo[d.properties.code] == "") ? null : countryInfo[d.properties.code][key].toLowerCase();
+            var e = (typeof countryInfo[d.properties.code] === 'undefined' || countryInfo[d.properties.code] == "") ? null : countryInfo[d.properties.code][key].toLowerCase();
             switch (e) {
                 case undefined:
                 case "":

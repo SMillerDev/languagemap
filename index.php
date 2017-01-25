@@ -17,7 +17,7 @@ $id      = intval($_GET['id'] ?? '0');
 <body>
 <div class="container">
     <ul class="nav nav-tabs">
-        <li role="presentation" <?php if ($id === 0): ?>class="active"<?php endif; ?>><a href="#">Home</a></li>
+        <li role="presentation" <?php if ($id === 0): ?>class="active"<?php endif; ?>><a href="index.php">Home</a></li>
         <?php foreach ($headers as $key => $header): ?>
             <li role="presentation" <?php if ($id === $key): ?>class="active"<?php endif; ?>><a
                         href="index.php?id=<?php echo $key; ?>"><?php echo $header; ?></a></li>

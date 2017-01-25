@@ -2,6 +2,21 @@
  * Created by sean on 25/01/2017.
  */
 
+String.prototype.toHex = function () {
+    var hash = 0;
+    if (this.length === 0) return hash;
+    for (var i = 0; i < this.length; i++) {
+        hash = this.charCodeAt(i) + ((hash << 5) - hash);
+        hash = hash & hash;
+    }
+    var color = '#';
+    for (var i = 0; i < 3; i++) {
+        var value = (hash >> (i * 8)) & 255;
+        color += ('00' + value.toString(16)).substr(-2);
+    }
+    return color;
+}
+
 d3.select(window).on("resize", throttle);
 
 var zoom = d3.zoom()
@@ -54,14 +69,10 @@ function hoverForInfo(info) {
 
     var html = "<table class='table'>";
     html += "<tr><th>" + info['Title'] + "</th><th></th></tr>";
-    html += "<tr><td>Bath words: </td><td>" + info['Bath words'] + "</td></tr>";
-    html += "<tr><td>Circle: </td><td>" + info['Circle'] + "</td></tr>";
-    html += "<tr><td>FORCE-NORTH contrast: </td><td>" + info['FORCE-NORTH contrast'] + "</td></tr>";
-    html += "<tr><td>STRUT/FOOT contrast: </td><td>" + info['STRUT/FOOT contrast'] + "</td></tr>";
-    html += "<tr><td>H-dropping: </td><td>" + info['H-dropping'] + "</td></tr>";
-    html += "<tr><td>Happy words: </td><td>" + info['Happy words'] + "</td></tr>";
-    html += "<tr><td>Medial /t/ glottalisation: </td><td>" + info['Medial /t/ glottalisation'] + "</td></tr>";
-    html += "<tr><td>Rhoticity: </td><td>" + info['Rhoticity'] + "</td></tr>";
+    headers.forEach(function (value, i) {
+        var text = (value == key) ? "<b>" + value + "</b>" : value;
+        html += "<tr><td>" + text + ": </td><td>" + info[value] + "</td></tr>";
+    });
     html += "</table>";
     return html;
 }
@@ -94,17 +105,21 @@ function draw(topo) {
             return d.properties.name;
         })
         .style("fill", function (d, i) {
-            if (key == undefined && countryInfo[d.properties.code] !== undefined){
+            if (key == undefined && countryInfo[d.properties.code] !== undefined) {
                 return "#777";
             }
-            var e = (countryInfo[d.properties.code] == undefined || countryInfo[d.properties.code] == "") ? null : countryInfo[d.properties.code][key];
+            var e = (countryInfo[d.properties.code] == undefined || countryInfo[d.properties.code] == "") ? null : countryInfo[d.properties.code][key].toLowerCase();
             switch (e) {
+                case undefined:
+                case "":
                 case null:
                     return "#DDD";
-                case "Yes":
+                case "yes":
                     return "#33cc1c";
-                case "No":
+                case "no":
                     return "#cc2b27";
+                default:
+                    return e.toHex();
             }
         })
         .on("mouseover", handleMouseOver)

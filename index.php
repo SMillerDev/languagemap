@@ -1,7 +1,7 @@
 <?php
 require_once 'src/Data/CsvParser.php';
 $data    = \LanguageMap\Data\CsvParser::parse_file(file('data/info.csv'));
-$headers = array_keys($data[array_rand($data)]);
+$headers = array_diff(array_keys($data[array_rand($data)]), ['Country', 'Title', 'Region']);
 $id      = intval($_GET['id'] ?? '0');
 ?>
 <!DOCTYPE html>
@@ -17,13 +17,10 @@ $id      = intval($_GET['id'] ?? '0');
 <body>
 <div class="container">
     <ul class="nav nav-tabs">
-        <li role="presentation" class="active"><a href="#">Home</a></li>
-        <?php foreach ($headers as $key => $header):
-            if (in_array($header, ['Country', 'Title', 'Region']))
-            {
-                continue;
-            } ?>
-            <li role="presentation"><a href="index.php?id=<?php echo $key; ?>"><?php echo $header; ?></a></li>
+        <li role="presentation" <?php if ($id === 0): ?>class="active"<?php endif; ?>><a href="#">Home</a></li>
+        <?php foreach ($headers as $key => $header): ?>
+            <li role="presentation" <?php if ($id === $key): ?>class="active"<?php endif; ?>><a
+                        href="index.php?id=<?php echo $key; ?>"><?php echo $header; ?></a></li>
         <?php endforeach; ?>
     </ul>
     <h1>Language info</h1>
@@ -31,6 +28,7 @@ $id      = intval($_GET['id'] ?? '0');
 </div>
 <script>
     var countryInfo = <?php echo json_encode($data);?>;
+    var headers = <?php echo json_encode(array_values($headers));?>;
     <?php if($id !== 0):?>
     var key = "<?php echo $headers[$id];?>";
     <?php endif;?>

@@ -29,7 +29,7 @@ var width = c.offsetWidth;
 var height = width / 2;
 
 //offsets for tooltips
-var offsetL = c.offsetLeft + 20;
+var offsetL = c.offsetLeft - 120;
 var offsetT = c.offsetTop + 10;
 
 var topo, projection, path, svg, g;
@@ -59,7 +59,7 @@ function setup(width, height) {
 
 }
 
-d3.json("data/world.min.json", function (error, world) {
+d3.json("data/"+map.toLowerCase()+".min.json", function (error, world) {
     topo = topojson.feature(world, world.objects.countries).features;
     draw(topo);
 });

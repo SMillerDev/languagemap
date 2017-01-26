@@ -1,6 +1,6 @@
 .country:hover {
     stroke: #fff;
-    stroke-width: 1.5px;
+    stroke-width: 1px;
 }
 
 .text {
@@ -23,14 +23,22 @@
 div.tooltip {
     color: #222;
     background: #fff;
-    padding: .5em;
-    text-shadow: #f5f5f5 0 1px 0;
     border-radius: 2px;
-    box-shadow: 0px 0px 2px 0px #a6a6a6;
+    box-shadow: 0 0 2px 0 rgba(0,0,0,0.5);
     opacity: 0.9;
     position: absolute;
 }
 
 h5 {
     margin: 0;
+}
+table.table{
+    margin-bottom: 0;
+}
+table.table>tbody>tr>th{
+    border-top: 0;
+}
+ul.nav-tabs>li.active>a, ul.nav-tabs>li.active>a:hover{
+    border-top-color: transparent;
+    border-radius: 0;
 }

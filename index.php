@@ -3,6 +3,7 @@ require_once 'src/Data/CsvParser.php';
 $data    = \LanguageMap\Data\CsvParser::parse_file(file('data/info.csv'));
 $headers = array_diff(array_keys($data[array_rand($data)]), ['Country', 'Title', 'Region']);
 $id      = intval($_GET['id'] ?? '0');
+$country = $_GET['country'] ?? 'world';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,15 +21,22 @@ $id      = intval($_GET['id'] ?? '0');
         <li role="presentation" <?php if ($id === 0): ?>class="active"<?php endif; ?>><a href="index.php">Home</a></li>
         <?php foreach ($headers as $key => $header): ?>
             <li role="presentation" <?php if ($id === $key): ?>class="active"<?php endif; ?>><a
-                        href="index.php?id=<?php echo $key; ?>"><?php echo $header; ?></a></li>
+                        href="index.php?id=<?php echo $key; ?>&country=<?php echo $country; ?>"><?php echo $header; ?></a></li>
         <?php endforeach; ?>
     </ul>
-    <h1>Language info</h1>
+    <h1>Language info
+        <small class="pull-right">
+            <a href="index.php?id=<?php echo $key; ?>">World</a>,
+            <a href="index.php?id=<?php echo $key; ?>&country=UK">UK</a>,
+            <a href="index.php?id=<?php echo $key; ?>&country=US">US</a>
+        </small>
+    </h1>
     <div id="container"></div>
 </div>
 <script>
     var countryInfo = <?php echo json_encode($data);?>;
     var headers = <?php echo json_encode(array_values($headers));?>;
+    var map = "<?php echo $country;?>";
     <?php if($id !== 0):?>
     var key = "<?php echo $headers[$id];?>";
     <?php endif;?>

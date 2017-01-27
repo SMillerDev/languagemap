@@ -4,6 +4,7 @@ $data    = \LanguageMap\Data\CsvParser::parse_file(file('data/info.csv'));
 $headers = array_diff(array_keys($data[array_rand($data)]), ['Country', 'Title', 'Region']);
 $id      = intval($_GET['id'] ?? '0');
 $country = $_GET['country'] ?? 'world';
+$units   = ['world' => 'countries', 'UK' => 'subunits', 'US' => 'counties'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +22,8 @@ $country = $_GET['country'] ?? 'world';
         <li role="presentation" <?php if ($id === 0): ?>class="active"<?php endif; ?>><a href="index.php">Home</a></li>
         <?php foreach ($headers as $key => $header): ?>
             <li role="presentation" <?php if ($id === $key): ?>class="active"<?php endif; ?>><a
-                        href="index.php?id=<?php echo $key; ?>&country=<?php echo $country; ?>"><?php echo $header; ?></a></li>
+                        href="index.php?id=<?php echo $key; ?>&country=<?php echo $country; ?>"><?php echo $header; ?></a>
+            </li>
         <?php endforeach; ?>
     </ul>
     <h1>Language info
@@ -37,12 +39,13 @@ $country = $_GET['country'] ?? 'world';
     var countryInfo = <?php echo json_encode($data);?>;
     var headers = <?php echo json_encode(array_values($headers));?>;
     var map = "<?php echo $country;?>";
+    var subunit = "<?php echo $units[$country];?>";
     <?php if($id !== 0):?>
     var key = "<?php echo $headers[$id];?>";
     <?php endif;?>
 </script>
 <script src="//d3js.org/d3.v4.min.js"></script>
-<script src="//d3js.org/topojson.v1.min.js"></script>
+<script src="//d3js.org/topojson.v2.min.js"></script>
 <script src="assets/index.js"></script>
 </body>
 </html>

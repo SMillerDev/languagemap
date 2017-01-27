@@ -59,8 +59,8 @@ function setup(width, height) {
 
 }
 
-d3.json("data/"+map.toLowerCase()+".min.json", function (error, world) {
-    topo = topojson.feature(world, world.objects.countries).features;
+d3.json("data/"+map.toLowerCase()+".min.json", function (error, item) {
+    topo = topojson.feature(item, item.objects[subunit]).features;
     draw(topo);
 });
 

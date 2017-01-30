@@ -92,22 +92,22 @@ function handleMouseOut() {
 
 
 function draw(topo) {
-    var country = g.selectAll(".country").data(topo);
+    var country = g.selectAll("."+subunit).data(topo);
     country.enter().insert("path")
-        .attr("class", "country")
+        .attr("class", subunit)
         .attr("d", path)
         .attr("id", function (d, i) {
             return d.id;
         })
         .attr("title", function (d, i) {
-            d.properties.info = countryInfo[d.properties.code];
+            d.properties.info = countryInfo[d.properties[selector]];
             return d.properties.name;
         })
         .style("fill", function (d, i) {
-            if (typeof key === 'undefined' && typeof countryInfo[d.properties.code] !== 'undefined') {
+            if (typeof key === 'undefined' && typeof countryInfo[d.properties[selector]] !== 'undefined') {
                 return "#777";
             }
-            var e = (typeof countryInfo[d.properties.code] === 'undefined' || countryInfo[d.properties.code] == "") ? null : countryInfo[d.properties.code][key].toLowerCase();
+            var e = (typeof countryInfo[d.properties[selector]] === 'undefined' || countryInfo[d.properties[selector]] == "") ? null : countryInfo[d.properties[selector]][key].toLowerCase();
             switch (e) {
                 case undefined:
                 case "":
@@ -157,7 +157,7 @@ function move() {
     g.attr("transform", "translate(" + t + ")scale(" + s + ")");
 
     //adjust the country hover stroke width based on zoom level
-    d3.selectAll(".country").style("stroke-width", 1.0 / s);
+    d3.selectAll("."+subunit).style("stroke-width", 1.0 / s);
 
 }
 

@@ -1,10 +1,23 @@
 <?php
 require_once 'src/Data/CsvParser.php';
 $data    = \LanguageMap\Data\CsvParser::parse_file(file('data/info.csv'));
-$headers = array_diff(array_keys($data[array_rand($data)]), ['Country', 'Title', 'Region']);
+$headers = array_diff(array_keys($data[array_rand($data)]), ['Country', 'Title', 'Region', 'Region Code']);
 $id      = intval($_GET['id'] ?? '0');
 $country = $_GET['country'] ?? 'world';
-$units   = ['world' => 'countries', 'UK' => 'subunits', 'US' => 'counties'];
+$units   = [
+    'world' => [
+        'subunit'  => 'countries',
+        'selector' => 'code',
+    ],
+    'UK'    => [
+        'subunit'  => 'subunits',
+        'selector' => 'GU_A3',
+    ],
+    'US'    => [
+        'subunit'  => 'states',
+        'selector' => 'code',
+    ],
+];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,13 +52,15 @@ $units   = ['world' => 'countries', 'UK' => 'subunits', 'US' => 'counties'];
     var countryInfo = <?php echo json_encode($data);?>;
     var headers = <?php echo json_encode(array_values($headers));?>;
     var map = "<?php echo $country;?>";
-    var subunit = "<?php echo $units[$country];?>";
+    <?php foreach ($units[$country] as $key=>$value):?>
+    var <?php echo $key;?> = "<?php echo $value;?>";
+    <?php endforeach;?>
     <?php if($id !== 0):?>
     var key = "<?php echo $headers[$id];?>";
     <?php endif;?>
 </script>
 <script src="//d3js.org/d3.v4.min.js"></script>
 <script src="//d3js.org/topojson.v2.min.js"></script>
-<script src="assets/index.js"></script>
+<script src="assets/<?php echo $country;?>.js"></script>
 </body>
 </html>
